@@ -1,11 +1,12 @@
-import { Header } from './navbar';
+
+import { Header } from "./navbar";
 export const Layout = ({ children }) => {
   return (
     <>
+
       <Header />
       {children}
-      <footer>
-      </footer>
+      <footer></footer>
     </>
   );
 };

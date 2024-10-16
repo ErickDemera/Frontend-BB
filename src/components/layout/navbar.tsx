@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import { Navbar, Nav, Dropdown, Container, NavDropdown } from "react-bootstrap";
-import {FcBarChart,FcBusinessman,FcCheckmark,FcCurrencyExchange,FcImport,FcSupport,
+import {
+  FcBarChart,
+  FcBusinessman,
+  FcCheckmark,
+  FcCurrencyExchange,
+  FcImport,
+  FcSupport,
 } from "react-icons/fc";
 
 export const Header = () => {
+    
   const handleLogout = () => {
     console.log("Cerrando sesión...");
   };
@@ -25,7 +32,7 @@ export const Header = () => {
       >
         <Container fluid>
           <Navbar.Brand href="#home">
-            <img src="/icon-bb.svg" alt="" className="navbar-icon"/>
+            <img src="/logo-bb.png" alt="" className="navbar-icon" />
           </Navbar.Brand>
 
           {/* Información del usuario */}
@@ -54,7 +61,7 @@ export const Header = () => {
       </Navbar>
       <Nav className="bg-warning nav p-1 ">
         <NavDropdown
-          title={<span className="text-white">Seguridad</span>}
+          title={<span className="text-white font-extrabold">Seguridad</span>}
           id="nav-simulador-dropdown"
         >
           <NavDropdown.Item href="#action/3.6">Información</NavDropdown.Item>
