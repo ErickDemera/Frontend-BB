@@ -1,0 +1,37 @@
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+$theme-colors: (
+  "primary": #00838D,
+  "secondary": #D3E9ED,
+  "success": #0b6575,
+  "info": #374151,
+  "warning": #12907a,
+  "danger": #17b498,
+  "light": #f8f9fa,
+  "dark": #3a3a3a,
+);
+
+$breakpoints: (
+  xxs: 400px,
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+);
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+  // Add your custom breakpoint, e.g., "xxs"
+  xxs: 400px // New breakpoint,,
+);
+
+@import "node_modules/bootstrap/scss/bootstrap";
