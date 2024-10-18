@@ -1,9 +1,17 @@
-import { Layout } from "@/components/layout";
 import React, { useState } from "react";
-import {Table,Button,FormControl,InputGroup,Col,Row,Card,Container,} from "react-bootstrap";
+import {
+  Table,
+  Button,
+  FormControl,
+  InputGroup,
+  Col,
+  Row,
+  Card,
+  Container,
+} from "react-bootstrap";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
-const ProductList = () => {
+export const ListaProductos = () => {
   // Datos simulados para la tabla
   const [products, setProducts] = useState([
     { id: 1, name: "ATC", description: "ATC" },
@@ -17,8 +25,7 @@ const ProductList = () => {
   // Manejo de búsqueda (puedes implementar el filtro)
   const [searchTerm, setSearchTerm] = useState("");
   return (
-    <Layout>
-      <div className="container-fluid bg-secondary p-4">
+    <div className="container-fluid bg-secondary p-4">
       <div className="d-flex justify-content-between mb-3">
         <div>
           <Button
@@ -127,8 +134,5 @@ const ProductList = () => {
         </div>
       </Container>
     </div>
-    </Layout>
   );
 };
-
-export default ProductList;

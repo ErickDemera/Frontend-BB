@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { useState } from "react";
 import { Navbar, Nav, Dropdown, Container, NavDropdown } from "react-bootstrap";
 import {
@@ -10,7 +11,6 @@ import {
 } from "react-icons/fc";
 
 export const Header = () => {
-    
   const handleLogout = () => {
     console.log("Cerrando sesión...");
   };
@@ -64,8 +64,12 @@ export const Header = () => {
           title={<span className="text-white font-extrabold">Seguridad</span>}
           id="nav-simulador-dropdown"
         >
-          <NavDropdown.Item href="#action/3.6">Información</NavDropdown.Item>
-          <NavDropdown.Item href="#action/3.5">Información</NavDropdown.Item>
+          <NavDropdown.Item as={Link} href="#action/3.6">
+            Información
+          </NavDropdown.Item>
+          <NavDropdown.Item as={Link} href="#action/3.5">
+            Información
+          </NavDropdown.Item>
         </NavDropdown>
 
         <NavDropdown
@@ -75,6 +79,7 @@ export const Header = () => {
         >
           {/* Catálogo con submenú */}
           <NavDropdown.Item
+            as={Link}
             href="#action/3.1"
             onMouseEnter={() => setShowCatalogoSubMenu(true)}
             onMouseLeave={() => setShowCatalogoSubMenu(false)}
@@ -84,13 +89,13 @@ export const Header = () => {
             Catálogo
             {showCatalogoSubMenu && (
               <div className="sub-menu">
-                <NavDropdown.Item href="#action/3.1.1">
+                <NavDropdown.Item as={Link} href="/simulador/productos">
                   <FcCheckmark style={{ marginRight: "8px" }} /> Productos
                 </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.1.2">
+                <NavDropdown.Item as={Link} href="#action/3.1.2">
                   <FcCheckmark style={{ marginRight: "8px" }} /> Segmento
                 </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.1.3">
+                <NavDropdown.Item as={Link} href="#action/3.1.3">
                   <FcCheckmark style={{ marginRight: "8px" }} /> Plazo
                 </NavDropdown.Item>
               </div>

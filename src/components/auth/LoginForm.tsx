@@ -14,7 +14,7 @@ export const LoginForm = () => {
     // Aquí podrías realizar validaciones o enviar los datos a un servidor
     console.log("Email:", email);
     console.log("Password:", password);
-    router.push("/auth/SimuladorForm");
+    router.push("/simulador/productos/nuevo"); //link a la ruta del iniciar seccion
   };
 
   return (
