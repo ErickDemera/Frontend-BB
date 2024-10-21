@@ -129,6 +129,8 @@ export const Header = () => {
         {/* Simulador como un botón resaltado con ícono */}
         <Nav.Link
           onClick={handleSimuladorClick}
+          as={Link}
+          href="/simulador/productos/home"
           className="d-flex align-items-center"
           style={{
             backgroundColor: "#ffcc00", // Color de fondo amarillo

@@ -8,11 +8,12 @@ import {
   Row,
   Card,
   Container,
+  Modal,
+  Form,
 } from "react-bootstrap";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 export const ListaProductos = () => {
-  // Datos simulados para la tabla
   const [products, setProducts] = useState([
     { id: 1, name: "ATC", description: "ATC" },
     { id: 2, name: "Cartera Comercial", description: "Cartera Comercial" },
@@ -22,8 +23,64 @@ export const ListaProductos = () => {
     { id: 6, name: "Tarjeta de Crédito", description: "Tarjeta de Crédito" },
   ]);
 
-  // Manejo de búsqueda (puedes implementar el filtro)
   const [searchTerm, setSearchTerm] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [newProduct, setNewProduct] = useState({ name: "", description: "" });
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
+  const [editingProduct, setEditingProduct] = useState(null);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setNewProduct({ name: "", description: "" });
+    setEditingProduct(null);
+  };
+
+  const handleShowModal = () => setShowModal(true);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewProduct({ ...newProduct, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (editingProduct) {
+      setProducts((prevProducts) =>
+        prevProducts.map((product) =>
+          product.id === editingProduct.id
+            ? { ...product, ...newProduct }
+            : product
+        )
+      );
+    } else {
+      const newId = products.length ? products[products.length - 1].id + 1 : 1;
+      setProducts([...products, { id: newId, ...newProduct }]);
+    }
+    handleCloseModal();
+  };
+
+  const handleEdit = (product) => {
+    setNewProduct({ name: product.name, description: product.description });
+    setEditingProduct(product);
+    handleShowModal();
+  };
+
+  const handleShowConfirmModal = (id) => {
+    setProductToDelete(id);
+    setShowConfirmModal(true);
+  };
+
+  const handleCloseConfirmModal = () => {
+    setShowConfirmModal(false);
+    setProductToDelete(null);
+  };
+
+  const handleDelete = () => {
+    setProducts(products.filter((product) => product.id !== productToDelete));
+    handleCloseConfirmModal();
+  };
+
   return (
     <div className="container-fluid bg-secondary p-4">
       <div className="d-flex justify-content-between mb-3">
@@ -35,18 +92,9 @@ export const ListaProductos = () => {
               border: "none",
             }}
             className="me-4"
+            onClick={handleShowModal}
           >
-            + Nuevo
-          </Button>
-          <Button
-            style={{
-              backgroundColor: "#FF3040",
-              color: "white",
-              border: "none",
-            }}
-            className="me-4"
-          >
-            Eliminar
+            + Agregar Producto
           </Button>
         </div>
         <div>
@@ -57,7 +105,6 @@ export const ListaProductos = () => {
         </div>
       </div>
 
-      {/* Búsqueda */}
       <InputGroup className="mb-3">
         <FormControl
           placeholder="Buscar"
@@ -65,7 +112,6 @@ export const ListaProductos = () => {
         />
       </InputGroup>
 
-      {/* Tabla */}
       <Table striped bordered hover className="d-none d-xxs-table">
         <thead>
           <tr>
@@ -86,10 +132,17 @@ export const ListaProductos = () => {
                 <td>{product.name}</td>
                 <td>{product.description}</td>
                 <td>
-                  <Button variant="warning" className="me-2">
+                  <Button
+                    variant="warning"
+                    className="me-3"
+                    onClick={() => handleEdit(product)}
+                  >
                     <FaEdit />
                   </Button>
-                  <Button variant="danger">
+                  <Button
+                    variant="danger"
+                    onClick={() => handleShowConfirmModal(product.id)}
+                  >
                     <FaTrashAlt />
                   </Button>
                 </td>
@@ -97,8 +150,8 @@ export const ListaProductos = () => {
             ))}
         </tbody>
       </Table>
+
       <Container className="d-xxs-none">
-        {/* Scrollable area */}
         <div
           className="overflow-auto bg-light"
           style={{
@@ -120,10 +173,17 @@ export const ListaProductos = () => {
                       <Card.Title>{product.name}</Card.Title>
                       <Card.Text>Id: {product.description}</Card.Text>
                       <Card.Text>Descripción: {product.description}</Card.Text>
-                      <Button variant="warning" className="me-2">
+                      <Button
+                        variant="warning"
+                        className="me-2"
+                        onClick={() => handleEdit(product)}
+                      >
                         <FaEdit />
                       </Button>
-                      <Button variant="danger">
+                      <Button
+                        variant="danger"
+                        onClick={() => handleShowConfirmModal(product.id)}
+                      >
                         <FaTrashAlt />
                       </Button>
                     </Card.Body>
@@ -133,6 +193,64 @@ export const ListaProductos = () => {
           </Row>
         </div>
       </Container>
+
+      {/* Modal para agregar/editar producto */}
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            {editingProduct ? "Editar Producto" : "Detalles del Nuevo Producto"}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formNombre">
+              <Form.Label>Nombre del Producto</Form.Label>
+              <Form.Control
+                className="w-100 mb-3"
+                type="text"
+                placeholder="Ingrese el nombre del producto"
+                name="name"
+                value={newProduct.name}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formDescripcion">
+              <Form.Label>Descripción del Producto</Form.Label>
+              <Form.Control
+                className="w-100 mb-3"
+                type="text"
+                placeholder="Ingrese la descripción"
+                name="description"
+                value={newProduct.description}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              {editingProduct ? "Guardar Cambios" : "¡Producto Agregado!"}
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+
+      {/* Modal de confirmación para eliminar */}
+      <Modal show={showConfirmModal} onHide={handleCloseConfirmModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmar Eliminación</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          ¿Estás seguro de que quieres eliminar este producto?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseConfirmModal}>
+            Cancelar
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            Eliminar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
