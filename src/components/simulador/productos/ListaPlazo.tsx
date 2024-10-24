@@ -13,71 +13,70 @@ import {
 } from "react-bootstrap";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
-export const ListaProductos = () => {
-  const [products, setProducts] = useState([
-    { id: 1, name: "ATC", description: "ATC" },
-    { id: 2, name: "Cartera Comercial", description: "Cartera Comercial" },
-    { id: 3, name: "Cartera Consumo", description: "Cartera Consumo" },
-    { id: 4, name: "Cartera Educativa", description: "Cartera Educativa" },
-    { id: 5, name: "Cartera Vivienda", description: "Cartera Vivienda" },
-    { id: 6, name: "Tarjeta de Crédito", description: "Tarjeta de Crédito" },
+export const ListaTerms = () => {
+  const [terms, setTerms] = useState([
+    { id: 1, name: "1 - 29", min: "1", max: "29" },
+    { id: 2, name: "30 - 60", min: "30", max: "60" },
+    { id: 3, name: "61 - 90", min: "61", max: "90" },
+    { id: 4, name: "91 - 120", min: "91", max: "120" },
+    { id: 5, name: "121 - 180", min: "121", max: "180" },
+    { id: 6, name: "181 - 360", min: "181", max: "360" },
+    { id: 7, name: "> 361", min: "360", max: "***" },
   ]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [newProduct, setNewProduct] = useState({ name: "", description: "" });
+  const [newTerm, setNewTerm] = useState({ name: "", min: "", max: "" });
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [productToDelete, setProductToDelete] = useState(null);
-  const [editingProduct, setEditingProduct] = useState(null);
+  const [termToDelete, setTermToDelete] = useState(null);
+  const [editingTerm, setEditingTerm] = useState(null);
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setNewProduct({ name: "", description: "" });
-    setEditingProduct(null);
+    setNewTerm({ name: "", min: "", max: "" });
+    setEditingTerm(null);
   };
 
   const handleShowModal = () => setShowModal(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setNewProduct({ ...newProduct, [name]: value });
+    setNewTerm({ ...newTerm, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (editingProduct) {
-      setProducts((prevProducts) =>
-        prevProducts.map((product) =>
-          product.id === editingProduct.id
-            ? { ...product, ...newProduct }
-            : product
+    if (editingTerm) {
+      setTerms((prevTerms) =>
+        prevTerms.map((term) =>
+          term.id === editingTerm.id ? { ...term, ...newTerm } : term
         )
       );
     } else {
-      const newId = products.length ? products[products.length - 1].id + 1 : 1;
-      setProducts([...products, { id: newId, ...newProduct }]);
+      const newId = terms.length ? terms[terms.length - 1].id + 1 : 1;
+      setTerms([...terms, { id: newId, ...newTerm }]);
     }
     handleCloseModal();
   };
 
-  const handleEdit = (product) => {
-    setNewProduct({ name: product.name, description: product.description });
-    setEditingProduct(product);
+  const handleEdit = (term) => {
+    setNewTerm({ name: term.name, min: term.min, max: term.max });
+    setEditingTerm(term);
     handleShowModal();
   };
 
   const handleShowConfirmModal = (id) => {
-    setProductToDelete(id);
+    setTermToDelete(id);
     setShowConfirmModal(true);
   };
 
   const handleCloseConfirmModal = () => {
     setShowConfirmModal(false);
-    setProductToDelete(null);
+    setTermToDelete(null);
   };
 
   const handleDelete = () => {
-    setProducts(products.filter((product) => product.id !== productToDelete));
+    setTerms(terms.filter((term) => term.id !== termToDelete));
     handleCloseConfirmModal();
   };
 
@@ -94,10 +93,10 @@ export const ListaProductos = () => {
             className="me-4"
             onClick={handleShowModal}
           >
-            + Agregar Producto
+            + Agregar Term
           </Button>
         </div>
-        <h2>Listado de Productos</h2>
+        <h2>Listado de Plazos</h2>
         <div>
           <Button variant="success" className="me-4">
             Importar
@@ -117,32 +116,34 @@ export const ListaProductos = () => {
         <thead>
           <tr>
             <th>Código</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
+            <th>Plazos</th>
+            <th>Mínimo</th>
+            <th>Máximo</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {products
-            .filter((product) =>
-              product.name.toLowerCase().includes(searchTerm.toLowerCase())
+          {terms
+            .filter((term) =>
+              term.name.toLowerCase().includes(searchTerm.toLowerCase())
             )
-            .map((product) => (
-              <tr key={product.id}>
-                <td>{product.id}</td>
-                <td>{product.name}</td>
-                <td>{product.description}</td>
+            .map((term) => (
+              <tr key={term.id}>
+                <td>{term.id}</td>
+                <td>{term.name}</td>
+                <td>{term.min}</td>
+                <td>{term.max}</td>
                 <td>
                   <Button
                     variant="warning"
                     className="me-3"
-                    onClick={() => handleEdit(product)}
+                    onClick={() => handleEdit(term)}
                   >
                     <FaEdit />
                   </Button>
                   <Button
                     variant="danger"
-                    onClick={() => handleShowConfirmModal(product.id)}
+                    onClick={() => handleShowConfirmModal(term.id)}
                   >
                     <FaTrashAlt />
                   </Button>
@@ -163,27 +164,27 @@ export const ListaProductos = () => {
           }}
         >
           <Row>
-            {products
-              .filter((product) =>
-                product.name.toLowerCase().includes(searchTerm.toLowerCase())
+            {terms
+              .filter((term) =>
+                term.name.toLowerCase().includes(searchTerm.toLowerCase())
               )
-              .map((product) => (
-                <Col md={4} key={product.id} sm={6} xs={12} className="mb-4">
+              .map((term) => (
+                <Col md={4} key={term.id} sm={6} xs={12} className="mb-4">
                   <Card>
                     <Card.Body>
-                      <Card.Title>{product.name}</Card.Title>
-                      <Card.Text>Id: {product.description}</Card.Text>
-                      <Card.Text>Descripción: {product.description}</Card.Text>
+                      <Card.Title>{term.name}</Card.Title>
+                      <Card.Text>Mínimo: {term.min}</Card.Text>
+                      <Card.Text>Máximo: {term.max}</Card.Text>
                       <Button
                         variant="warning"
                         className="me-2"
-                        onClick={() => handleEdit(product)}
+                        onClick={() => handleEdit(term)}
                       >
                         <FaEdit />
                       </Button>
                       <Button
                         variant="danger"
-                        onClick={() => handleShowConfirmModal(product.id)}
+                        onClick={() => handleShowConfirmModal(term.id)}
                       >
                         <FaTrashAlt />
                       </Button>
@@ -195,41 +196,53 @@ export const ListaProductos = () => {
         </div>
       </Container>
 
-      {/* Modal para agregar/editar producto */}
+      {/* Modal para agregar/editar term */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>
-            {editingProduct ? "Editar Producto" : "Detalles del Nuevo Producto"}
+            {editingTerm ? "Editar Term" : "Detalles del Nuevo Term"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formNombre">
-              <Form.Label>Nombre del Producto</Form.Label>
+              <Form.Label>Nombre del Term</Form.Label>
               <Form.Control
                 className="w-100 mb-3"
                 type="text"
-                placeholder="Ingrese el nombre del producto"
+                placeholder="Ingrese el nombre del term"
                 name="name"
-                value={newProduct.name}
+                value={newTerm.name}
                 onChange={handleChange}
                 required
               />
             </Form.Group>
-            <Form.Group controlId="formDescripcion">
-              <Form.Label>Descripción del Producto</Form.Label>
+            <Form.Group controlId="formMinimo">
+              <Form.Label>Mínimo</Form.Label>
               <Form.Control
                 className="w-100 mb-3"
-                type="text"
-                placeholder="Ingrese la descripción"
-                name="description"
-                value={newProduct.description}
+                type="number"
+                placeholder="Ingrese el mínimo"
+                name="min"
+                value={newTerm.min}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formMaximo">
+              <Form.Label>Máximo</Form.Label>
+              <Form.Control
+                className="w-100 mb-3"
+                type="number"
+                placeholder="Ingrese el máximo"
+                name="max"
+                value={newTerm.max}
                 onChange={handleChange}
                 required
               />
             </Form.Group>
             <Button variant="primary" type="submit">
-              {editingProduct ? "Guardar Cambios" : "¡Producto Agregado!"}
+              {editingTerm ? "Guardar Cambios" : "¡Term Agregado!"}
             </Button>
           </Form>
         </Modal.Body>
@@ -241,7 +254,7 @@ export const ListaProductos = () => {
           <Modal.Title>Confirmar Eliminación</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          ¿Estás seguro de que quieres eliminar este producto?
+          ¿Estás seguro de que quieres eliminar este term?
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseConfirmModal}>

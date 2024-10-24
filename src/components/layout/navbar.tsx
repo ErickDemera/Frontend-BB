@@ -92,10 +92,10 @@ export const Header = () => {
                 <NavDropdown.Item as={Link} href="/simulador/productos">
                   <FcCheckmark style={{ marginRight: "8px" }} /> Productos
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} href="#action/3.1.2">
+                <NavDropdown.Item as={Link} href="/simulador/segmentos">
                   <FcCheckmark style={{ marginRight: "8px" }} /> Segmento
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} href="#action/3.1.3">
+                <NavDropdown.Item as={Link} href="/simulador/plazo">
                   <FcCheckmark style={{ marginRight: "8px" }} /> Plazo
                 </NavDropdown.Item>
               </div>
@@ -112,15 +112,26 @@ export const Header = () => {
             <FcSupport style={{ marginRight: "3px" }} /> Configuración
             {showConfiguracionSubMenu && (
               <div className="sub-menu">
-                <NavDropdown.Item href="#action/3.2.1">Tasa</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2.2">Pit</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2.3">
+                <NavDropdown.Item href="/configuracion/tasa">
+                  <FcCheckmark style={{ marginRight: "8px" }} />
+                  Tasa
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/configuracion/pit">
+                  <FcCheckmark style={{ marginRight: "8px" }} />
+                  Pit
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/configuracion/provision">
+                  <FcCheckmark style={{ marginRight: "8px" }} />
                   Provisión
                 </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2.4">
+                <NavDropdown.Item href="/configuracion/ingreso">
+                  <FcCheckmark style={{ marginRight: "8px" }} />
                   Ingreso
                 </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2.5">Costo</NavDropdown.Item>
+                <NavDropdown.Item href="/configuracion/costo">
+                  <FcCheckmark style={{ marginRight: "8px" }} />
+                  Costo
+                </NavDropdown.Item>
               </div>
             )}
           </NavDropdown.Item>
@@ -130,7 +141,7 @@ export const Header = () => {
         <Nav.Link
           onClick={handleSimuladorClick}
           as={Link}
-          href="/simulador/productos/home"
+          href="/simulador/simulacion/rentabilidadform"
           className="d-flex align-items-center"
           style={{
             backgroundColor: "#ffcc00", // Color de fondo amarillo

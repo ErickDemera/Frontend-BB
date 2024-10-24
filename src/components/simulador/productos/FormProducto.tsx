@@ -1,6 +1,6 @@
+import { useState } from "react";
 import { Form, Button, ToggleButton, ToggleButtonGroup, Row, Col, Dropdown } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-
 
 interface FormValues {
   tipoBusqueda: string;
@@ -11,14 +11,20 @@ interface FormValues {
 }
 
 export const FormProducto = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>();
-  
+  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
+
+  // Estados para manejar la selección de los ToggleButtons
+  const [tipoBusqueda, setTipoBusqueda] = useState<string | null>(null);
+  const [periodoConsulta, setPeriodoConsulta] = useState<string | null>(null);
+  const [beneficiariosRot, setBeneficiariosRot] = useState<string | null>(null);
+
   const onSubmit = (data: FormValues) => {
-    console.log(data);
+    console.log({
+      tipoBusqueda,
+      periodoConsulta,
+      beneficiariosRot,
+      ...data
+    });
   };
 
   return (
@@ -31,20 +37,19 @@ export const FormProducto = () => {
             <ToggleButtonGroup
               type="radio"
               name="tipoBusqueda"
-              defaultValue="individual"
-              className="gb-primary d-flex mb-2 " // Añadido para que los botones se muestren juntos
+              value={tipoBusqueda}
+              className="gb-primary d-flex mb-2"
+              onChange={(val: string) => setTipoBusqueda(val)}
             >
               <ToggleButton
                 value="individual"
-                variant="outline-info"
-                {...register("tipoBusqueda", { required: "Seleccione un tipo de búsqueda" })}
+                variant={tipoBusqueda === "individual" ? "info" : "outline-info"}
               >
                 Cliente Individual
               </ToggleButton>
               <ToggleButton
                 value="grupo"
-                variant="outline-info"
-                {...register("tipoBusqueda", { required: "Seleccione un tipo de búsqueda" })}
+                variant={tipoBusqueda === "grupo" ? "info" : "outline-info"}
               >
                 Grupo Económico
               </ToggleButton>
@@ -58,20 +63,19 @@ export const FormProducto = () => {
             <ToggleButtonGroup
               type="radio"
               name="periodoConsulta"
-              defaultValue="actual"
+              value={periodoConsulta}
               className="d-flex mb-2"
+              onChange={(val: string) => setPeriodoConsulta(val)}
             >
               <ToggleButton
                 value="actual"
-                variant="outline-info"
-                {...register("periodoConsulta", { required: "Seleccione un periodo de consulta" })}
+                variant={periodoConsulta === "actual" ? "info" : "outline-info"}
               >
                 Corte Actual
               </ToggleButton>
               <ToggleButton
                 value="calendario"
-                variant="outline-info"
-                {...register("periodoConsulta", { required: "Seleccione un periodo de consulta" })}
+                variant={periodoConsulta === "calendario" ? "info" : "outline-info"}
               >
                 Año Calendario
               </ToggleButton>
@@ -85,20 +89,19 @@ export const FormProducto = () => {
             <ToggleButtonGroup
               type="radio"
               name="beneficiariosRot"
-              defaultValue="yes"
+              value={beneficiariosRot}
               className="d-flex mb-2"
+              onChange={(val: string) => setBeneficiariosRot(val)}
             >
               <ToggleButton
                 value="yes"
-                variant="outline-info"
-                {...register("beneficiariosRot", { required: "Seleccione una opción" })}
+                variant={beneficiariosRot === "yes" ? "info" : "outline-info"}
               >
                 Yes
               </ToggleButton>
               <ToggleButton
                 value="no"
-                variant="outline-info"
-                {...register("beneficiariosRot", { required: "Seleccione una opción" })}
+                variant={beneficiariosRot === "no" ? "info" : "outline-info"}
               >
                 No
               </ToggleButton>
@@ -131,21 +134,6 @@ export const FormProducto = () => {
                 <Dropdown.Item href="#/action-3">Empresa 3</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-          </Form.Group>
-
-          {/* Seleccionar Empresas */}
-          <Form.Group controlId="formSeleccionEmpresas">
-            <Form.Label>Seleccionar Empresas</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Buscar empresas"
-              {...register("seleccionEmpresas", { required: "Este campo es obligatorio" })}
-            />
-            <div className="mt-2">
-              <Form.Check label="Empresa 7" value="empresa7" {...register("seleccionEmpresas")} />
-              <Form.Check label="Empresa 8" value="empresa8" {...register("seleccionEmpresas")} />
-              <Form.Check label="Empresa 9" value="empresa9" {...register("seleccionEmpresas")} />
-            </div>
           </Form.Group>
         </Col>
       </Row>

@@ -13,71 +13,72 @@ import {
 } from "react-bootstrap";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
-export const ListaProductos = () => {
-  const [products, setProducts] = useState([
-    { id: 1, name: "ATC", description: "ATC" },
-    { id: 2, name: "Cartera Comercial", description: "Cartera Comercial" },
-    { id: 3, name: "Cartera Consumo", description: "Cartera Consumo" },
-    { id: 4, name: "Cartera Educativa", description: "Cartera Educativa" },
-    { id: 5, name: "Cartera Vivienda", description: "Cartera Vivienda" },
-    { id: 6, name: "Tarjeta de Crédito", description: "Tarjeta de Crédito" },
+export const ListaSegmentos = () => {
+  const [segments, setSegments] = useState([
+    { id: 1, name: "Corporativo", description: "Corporativo" },
+    { id: 2, name: "Empresarial", description: "Empresarial" },
+    { id: 3, name: "Pymes", description: "Pymes" },
+    { id: 4, name: "Alto", description: "Alto" },
+    { id: 5, name: "Medio alto", description: "Medio alto" },
+    { id: 6, name: "Medio", description: "Medio" },
+    { id: 7, name: "Monetarios", description: "Monetarios" },
   ]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [newProduct, setNewProduct] = useState({ name: "", description: "" });
+  const [newSegment, setNewSegment] = useState({ name: "", description: "" });
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [productToDelete, setProductToDelete] = useState(null);
-  const [editingProduct, setEditingProduct] = useState(null);
+  const [segmentToDelete, setSegmentToDelete] = useState(null);
+  const [editingSegment, setEditingSegment] = useState(null);
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setNewProduct({ name: "", description: "" });
-    setEditingProduct(null);
+    setNewSegment({ name: "", description: "" });
+    setEditingSegment(null);
   };
 
   const handleShowModal = () => setShowModal(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setNewProduct({ ...newProduct, [name]: value });
+    setNewSegment({ ...newSegment, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (editingProduct) {
-      setProducts((prevProducts) =>
-        prevProducts.map((product) =>
-          product.id === editingProduct.id
-            ? { ...product, ...newProduct }
-            : product
+    if (editingSegment) {
+      setSegments((prevSegments) =>
+        prevSegments.map((segment) =>
+          segment.id === editingSegment.id
+            ? { ...segment, ...newSegment }
+            : segment
         )
       );
     } else {
-      const newId = products.length ? products[products.length - 1].id + 1 : 1;
-      setProducts([...products, { id: newId, ...newProduct }]);
+      const newId = segments.length ? segments[segments.length - 1].id + 1 : 1;
+      setSegments([...segments, { id: newId, ...newSegment }]);
     }
     handleCloseModal();
   };
 
-  const handleEdit = (product) => {
-    setNewProduct({ name: product.name, description: product.description });
-    setEditingProduct(product);
+  const handleEdit = (segment) => {
+    setNewSegment({ name: segment.name, description: segment.description });
+    setEditingSegment(segment);
     handleShowModal();
   };
 
   const handleShowConfirmModal = (id) => {
-    setProductToDelete(id);
+    setSegmentToDelete(id);
     setShowConfirmModal(true);
   };
 
   const handleCloseConfirmModal = () => {
     setShowConfirmModal(false);
-    setProductToDelete(null);
+    setSegmentToDelete(null);
   };
 
   const handleDelete = () => {
-    setProducts(products.filter((product) => product.id !== productToDelete));
+    setSegments(segments.filter((segment) => segment.id !== segmentToDelete));
     handleCloseConfirmModal();
   };
 
@@ -94,10 +95,10 @@ export const ListaProductos = () => {
             className="me-4"
             onClick={handleShowModal}
           >
-            + Agregar Producto
+            + Agregar Segmento
           </Button>
         </div>
-        <h2>Listado de Productos</h2>
+        <h2>Listado de Segmentos</h2>
         <div>
           <Button variant="success" className="me-4">
             Importar
@@ -123,26 +124,26 @@ export const ListaProductos = () => {
           </tr>
         </thead>
         <tbody>
-          {products
-            .filter((product) =>
-              product.name.toLowerCase().includes(searchTerm.toLowerCase())
+          {segments
+            .filter((segment) =>
+              segment.name.toLowerCase().includes(searchTerm.toLowerCase())
             )
-            .map((product) => (
-              <tr key={product.id}>
-                <td>{product.id}</td>
-                <td>{product.name}</td>
-                <td>{product.description}</td>
+            .map((segment) => (
+              <tr key={segment.id}>
+                <td>{segment.id}</td>
+                <td>{segment.name}</td>
+                <td>{segment.description}</td>
                 <td>
                   <Button
                     variant="warning"
                     className="me-3"
-                    onClick={() => handleEdit(product)}
+                    onClick={() => handleEdit(segment)}
                   >
                     <FaEdit />
                   </Button>
                   <Button
                     variant="danger"
-                    onClick={() => handleShowConfirmModal(product.id)}
+                    onClick={() => handleShowConfirmModal(segment.id)}
                   >
                     <FaTrashAlt />
                   </Button>
@@ -163,27 +164,27 @@ export const ListaProductos = () => {
           }}
         >
           <Row>
-            {products
-              .filter((product) =>
-                product.name.toLowerCase().includes(searchTerm.toLowerCase())
+            {segments
+              .filter((segment) =>
+                segment.name.toLowerCase().includes(searchTerm.toLowerCase())
               )
-              .map((product) => (
-                <Col md={4} key={product.id} sm={6} xs={12} className="mb-4">
+              .map((segment) => (
+                <Col md={4} key={segment.id} sm={6} xs={12} className="mb-4">
                   <Card>
                     <Card.Body>
-                      <Card.Title>{product.name}</Card.Title>
-                      <Card.Text>Id: {product.description}</Card.Text>
-                      <Card.Text>Descripción: {product.description}</Card.Text>
+                      <Card.Title>{segment.name}</Card.Title>
+                      <Card.Text>Id: {segment.id}</Card.Text>
+                      <Card.Text>Descripción: {segment.description}</Card.Text>
                       <Button
                         variant="warning"
                         className="me-2"
-                        onClick={() => handleEdit(product)}
+                        onClick={() => handleEdit(segment)}
                       >
                         <FaEdit />
                       </Button>
                       <Button
                         variant="danger"
-                        onClick={() => handleShowConfirmModal(product.id)}
+                        onClick={() => handleShowConfirmModal(segment.id)}
                       >
                         <FaTrashAlt />
                       </Button>
@@ -195,41 +196,41 @@ export const ListaProductos = () => {
         </div>
       </Container>
 
-      {/* Modal para agregar/editar producto */}
+      {/* Modal para agregar/editar segmento */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>
-            {editingProduct ? "Editar Producto" : "Detalles del Nuevo Producto"}
+            {editingSegment ? "Editar Segmento" : "Detalles del Nuevo Segmento"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formNombre">
-              <Form.Label>Nombre del Producto</Form.Label>
+              <Form.Label>Nombre del Segmento</Form.Label>
               <Form.Control
                 className="w-100 mb-3"
                 type="text"
-                placeholder="Ingrese el nombre del producto"
+                placeholder="Ingrese el nombre del segmento"
                 name="name"
-                value={newProduct.name}
+                value={newSegment.name}
                 onChange={handleChange}
                 required
               />
             </Form.Group>
             <Form.Group controlId="formDescripcion">
-              <Form.Label>Descripción del Producto</Form.Label>
+              <Form.Label>Descripción del Segmento</Form.Label>
               <Form.Control
                 className="w-100 mb-3"
                 type="text"
                 placeholder="Ingrese la descripción"
                 name="description"
-                value={newProduct.description}
+                value={newSegment.description}
                 onChange={handleChange}
                 required
               />
             </Form.Group>
             <Button variant="primary" type="submit">
-              {editingProduct ? "Guardar Cambios" : "¡Producto Agregado!"}
+              {editingSegment ? "Guardar Cambios" : "¡Segmento Agregado!"}
             </Button>
           </Form>
         </Modal.Body>
@@ -241,7 +242,7 @@ export const ListaProductos = () => {
           <Modal.Title>Confirmar Eliminación</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          ¿Estás seguro de que quieres eliminar este producto?
+          ¿Estás seguro de que quieres eliminar este segmento?
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseConfirmModal}>
