@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   Button,
@@ -14,13 +14,7 @@ import {
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 export const ListaProductos = () => {
-  const [products, setProducts] = useState([
-    { id: 1, name: "ATC", description: "ATC" },
-    { id: 2, name: "Cartera Comercial", description: "Cartera Comercial" },
-    { id: 3, name: "Cartera Consumo", description: "Cartera Consumo" },
-    { id: 4, name: "Cartera Educativa", description: "Cartera Educativa" },
-    { id: 5, name: "Cartera Vivienda", description: "Cartera Vivienda" },
-    { id: 6, name: "Tarjeta de Crédito", description: "Tarjeta de Crédito" },
+  const [products, setProducts] = useState([  
   ]);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -81,6 +75,17 @@ export const ListaProductos = () => {
     handleCloseConfirmModal();
   };
 
+  useEffect((() => {
+    fetch('https://i2vdxg7l3l.execute-api.us-east-1.amazonaws.com/dev/productos', {
+      method: "GET",
+    }).then((data) => {
+      return data.json();
+    }).then((result) => {
+      console.log(result);
+    setProducts(result);      
+    });
+  }), []);
+
   return (
     <div className="container-fluid bg-secondary p-4">
       <div className="d-flex justify-content-between mb-3">
@@ -124,14 +129,14 @@ export const ListaProductos = () => {
         </thead>
         <tbody>
           {products
-            .filter((product) =>
-              product.name.toLowerCase().includes(searchTerm.toLowerCase())
-            )
+           // .filter((product) =>
+           ///   product.ca_nombre.toLowerCase().includes(searchTerm.toLowerCase())
+//)
             .map((product) => (
-              <tr key={product.id}>
-                <td>{product.id}</td>
-                <td>{product.name}</td>
-                <td>{product.description}</td>
+              <tr key={product.ca_catalogoid}>
+                <td>{product.ca_catalogoid}</td>
+                <td>{product.ca_nombre}</td>
+                <td>{product.ca_validacion_ingreso_tasa}</td>
                 <td>
                   <Button
                     variant="warning"
@@ -142,7 +147,7 @@ export const ListaProductos = () => {
                   </Button>
                   <Button
                     variant="danger"
-                    onClick={() => handleShowConfirmModal(product.id)}
+                    onClick={() => handleShowConfirmModal(product.ca_catalogoid)}
                   >
                     <FaTrashAlt />
                   </Button>
@@ -165,15 +170,15 @@ export const ListaProductos = () => {
           <Row>
             {products
               .filter((product) =>
-                product.name.toLowerCase().includes(searchTerm.toLowerCase())
+                product.ca_nombre.toLowerCase().includes(searchTerm.toLowerCase())
               )
               .map((product) => (
-                <Col md={4} key={product.id} sm={6} xs={12} className="mb-4">
+                <Col md={4} key={product.ca_catalogoid} sm={6} xs={12} className="mb-4">
                   <Card>
                     <Card.Body>
-                      <Card.Title>{product.name}</Card.Title>
-                      <Card.Text>Id: {product.description}</Card.Text>
-                      <Card.Text>Descripción: {product.description}</Card.Text>
+                      <Card.Title>{product.ca_nombre}</Card.Title>
+                      <Card.Text>Id: {product.ca_catalogoid}</Card.Text>
+                      <Card.Text>Descripción: {product.ca_nombre}</Card.Text>
                       <Button
                         variant="warning"
                         className="me-2"
