@@ -15,24 +15,24 @@ import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 export const ListaProductos = () => {
   const [products, setProducts] = useState([
-    { id: 1, name: "ATC", description: "ATC" },
-    { id: 2, name: "Cartera Comercial", description: "Cartera Comercial" },
-    { id: 3, name: "Cartera Consumo", description: "Cartera Consumo" },
-    { id: 4, name: "Cartera Educativa", description: "Cartera Educativa" },
-    { id: 5, name: "Cartera Vivienda", description: "Cartera Vivienda" },
-    { id: 6, name: "Tarjeta de Crédito", description: "Tarjeta de Crédito" },
+    { id: 1, name: "ATC", validation: "Positivo" },
+    { id: 2, name: "Cartera Comercial", validation: "Negativo" },
+    { id: 3, name: "Cartera Consumo", validation: "Positivo" },
+    { id: 4, name: "Cartera Educativa", validation: "Negativo" },
+    { id: 5, name: "Cartera Vivienda", validation: "Positivo" },
+    { id: 6, name: "Tarjeta de Crédito", validation: "Negativo" },
   ]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [newProduct, setNewProduct] = useState({ name: "", description: "" });
+  const [newProduct, setNewProduct] = useState({ name: "", validation: "Positivo" });
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
   const [editingProduct, setEditingProduct] = useState(null);
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setNewProduct({ name: "", description: "" });
+    setNewProduct({ name: "", validation: "Positivo" });
     setEditingProduct(null);
   };
 
@@ -61,7 +61,7 @@ export const ListaProductos = () => {
   };
 
   const handleEdit = (product) => {
-    setNewProduct({ name: product.name, description: product.description });
+    setNewProduct({ name: product.name, validation: product.validation });
     setEditingProduct(product);
     handleShowModal();
   };
@@ -99,10 +99,7 @@ export const ListaProductos = () => {
         </div>
         <h2>Listado de Productos</h2>
         <div>
-          <Button variant="success" className="me-4">
-            Importar
-          </Button>
-          <Button variant="danger">Exportar</Button>
+
         </div>
       </div>
 
@@ -117,8 +114,8 @@ export const ListaProductos = () => {
         <thead>
           <tr>
             <th>Código</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
+            <th>Producto</th>
+            <th>Validación</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -131,7 +128,7 @@ export const ListaProductos = () => {
               <tr key={product.id}>
                 <td>{product.id}</td>
                 <td>{product.name}</td>
-                <td>{product.description}</td>
+                <td>{product.validation}</td>
                 <td>
                   <Button
                     variant="warning"
@@ -172,8 +169,8 @@ export const ListaProductos = () => {
                   <Card>
                     <Card.Body>
                       <Card.Title>{product.name}</Card.Title>
-                      <Card.Text>Id: {product.description}</Card.Text>
-                      <Card.Text>Descripción: {product.description}</Card.Text>
+                      <Card.Text>Id: {product.id}</Card.Text>
+                      <Card.Text>Validación: {product.validation}</Card.Text>
                       <Button
                         variant="warning"
                         className="me-2"
@@ -205,7 +202,7 @@ export const ListaProductos = () => {
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formNombre">
-              <Form.Label>Nombre del Producto</Form.Label>
+              <Form.Label>Producto</Form.Label>
               <Form.Control
                 className="w-100 mb-3"
                 type="text"
@@ -216,20 +213,22 @@ export const ListaProductos = () => {
                 required
               />
             </Form.Group>
-            <Form.Group controlId="formDescripcion">
-              <Form.Label>Descripción del Producto</Form.Label>
+            <Form.Group controlId="formValidacion">
+              <Form.Label>Validación</Form.Label>
               <Form.Control
+                as="select"
                 className="w-100 mb-3"
-                type="text"
-                placeholder="Ingrese la descripción"
-                name="description"
-                value={newProduct.description}
+                name="validation"
+                value={newProduct.validation}
                 onChange={handleChange}
                 required
-              />
+              >
+                <option value="Positivo">Positivo</option>
+                <option value="Negativo">Negativo</option>
+              </Form.Control>
             </Form.Group>
             <Button variant="primary" type="submit">
-              {editingProduct ? "Guardar Cambios" : "¡Producto Agregado!"}
+              {editingProduct ? "Guardar Cambios" : "Agregar Producto"}
             </Button>
           </Form>
         </Modal.Body>

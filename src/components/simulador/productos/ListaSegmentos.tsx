@@ -100,10 +100,7 @@ export const ListaSegmentos = () => {
         </div>
         <h2>Listado de Segmentos</h2>
         <div>
-          <Button variant="success" className="me-4">
-            Importar
-          </Button>
-          <Button variant="danger">Exportar</Button>
+
         </div>
       </div>
 
@@ -118,8 +115,8 @@ export const ListaSegmentos = () => {
         <thead>
           <tr>
             <th>Código</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
+            <th>Producto</th>
+            <th>Segmento</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -206,7 +203,7 @@ export const ListaSegmentos = () => {
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formNombre">
-              <Form.Label>Nombre del Segmento</Form.Label>
+              <Form.Label>Producto</Form.Label>
               <Form.Control
                 className="w-100 mb-3"
                 type="text"
@@ -218,19 +215,26 @@ export const ListaSegmentos = () => {
               />
             </Form.Group>
             <Form.Group controlId="formDescripcion">
-              <Form.Label>Descripción del Segmento</Form.Label>
+              <Form.Label>Segmento</Form.Label>
               <Form.Control
+                as="select"
                 className="w-100 mb-3"
-                type="text"
-                placeholder="Ingrese la descripción"
                 name="description"
                 value={newSegment.description}
                 onChange={handleChange}
                 required
-              />
+              >
+                <option value="Corporativo">Corporativo</option>
+                <option value="Empresarial">Empresarial</option>
+                <option value="Pymes">Pymes</option>
+                <option value="Alto">Alto</option>
+                <option value="Medio alto">Medio alto</option>
+                <option value="Medio">Medio</option>
+                <option value="Monetarios">Monetarios</option>
+              </Form.Control>
             </Form.Group>
             <Button variant="primary" type="submit">
-              {editingSegment ? "Guardar Cambios" : "¡Segmento Agregado!"}
+              {editingSegment ? "Guardar Cambios" : "Agregar Segmento"}
             </Button>
           </Form>
         </Modal.Body>
