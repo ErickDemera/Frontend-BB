@@ -179,9 +179,9 @@ export const ListaProductos = () => {
                 <Col md={4} key={product.ca_catalogoid} sm={6} xs={12} className="mb-4">
                   <Card>
                     <Card.Body>
-                      <Card.Title>{product.name}</Card.Title>
-                      <Card.Text>Id: {product.description}</Card.Text>
-                      <Card.Text>Descripción: {product.description}</Card.Text>
+                      <Card.Title>{product.ca_nombre}</Card.Title>
+                      <Card.Text>Id: {product.ca_catalogoid}</Card.Text>
+                      <Card.Text>Descripción: {product.ca_nombre}</Card.Text>
                       <Button
                         variant="warning"
                         className="me-2"
